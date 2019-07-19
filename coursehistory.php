@@ -39,9 +39,8 @@
     $control = "<select id='$name' name='$name_id'>\n";
 
     while ($row = mysqli_fetch_assoc($sql_rows)) {
-      $control .= ("  <option value =" . $row['id'] . ">" . $row[$name] . "</option>\n");
+      $control .= ("  <option value =" . $row[$name] . ">" . $row[$name] . "</option>\n");
     }
-
     $control .= "</select>\n";
     return $control;
   }
