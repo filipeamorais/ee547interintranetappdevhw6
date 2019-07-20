@@ -1,0 +1,39 @@
+h1,
+h2 {
+    font-family: "Open Sans Condensed", "Arial", sans-serif;
+}
+
+body {
+    font-family: "Crimson Text", "Times New Roman", serif;
+    background-color: #F2FFFC;
+    font-size: 120%;
+    line-height: 1.5;
+    padding: 10px;
+}
+
+main h1 {
+    font-size: 40px;
+    color: #FFF;
+    background-color: #0a4108;
+    text-align: center;
+    padding: 20px;
+    border-bottom: 10px solid black;
+}
+
+table,
+th,
+td,
+tr {
+    border: 1px solid black;
+}
+
+th,
+td,
+tr {
+    padding: 15px;
+}
+
+th {
+    background-color: #0a4108;
+    color: white;
+}
