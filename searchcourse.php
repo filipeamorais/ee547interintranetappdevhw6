@@ -15,7 +15,7 @@ if (mysqli_connect_errno()) {
     <h1>Course History</h1>
   </main>
   <p>
-    Follow your selected course history bellow:
+    Follow bellow your selected course history sorted by semester and then by enrolled number in descending order:
   </p>
   <table>
     <tr>
@@ -32,24 +32,24 @@ if (mysqli_connect_errno()) {
     echo "    <tr>\n";
     $fieldName = "course_id";
     $courseId = $_GET[$fieldName];
-    $sqlSelectCourse = "SELECT * FROM courses WHERE (course='" . $courseId . "')";
-    $resultCourse = mysqli_query($connection, $sqlSelectCourse);
-    $courseRow = mysqli_fetch_assoc($resultCourse);
-    $sqlSelectReginfo = "SELECT * FROM reginfo WHERE (course_id='" . $courseRow['id'] . "')";
-    $resultReginfo = mysqli_query($connection, $sqlSelectReginfo);
-    $reginfoRow = mysqli_fetch_assoc($resultReginfo);
-    $sqlSelectInstructor = "SELECT * FROM instructors WHERE (id='" . $reginfoRow['instructor_id'] . "')";
-    $resultInstructor = mysqli_query($connection, $sqlSelectInstructor);
-    $instructorRow = mysqli_fetch_assoc($resultInstructor);
-    while ($reginfoRow = mysqli_fetch_assoc($resultReginfo)) {
-      echo "      <td>" . $reginfoRow['semester'] . "</td>";
-      echo "      <td>" . $courseRow['course'] . "</td>";
-      echo "      <td>" . $courseRow['title'] . "</td>";
-      echo "      <td>" . $reginfoRow['days'] . "</td>";
-      echo "      <td>" . $reginfoRow['time'] . "</td>";
-      echo "      <td>" . $reginfoRow['act'] . "</td>";
-      echo "      <td>" . $instructorRow['instructor'] . "</td>";
-      echo "      <td>" . $reginfoRow['location'] . "</td>";
+    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course='" . $courseId . "' ORDER BY reginfo.semester DESC, reginfo.act DESC";
+    $resultCourseHistory = mysqli_query($connection, $sqlSelectDataInnerJoin);
+    // $courseHistoryRow = mysqli_fetch_assoc($resultCourseHistory);
+    // $sqlSelectReginfo = "SELECT * FROM reginfo WHERE (course_id='" . $courseRow['id'] . "')";
+    // $resultReginfo = mysqli_query($connection, $sqlSelectReginfo);
+    // $reginfoRow = mysqli_fetch_assoc($resultReginfo);
+    // $sqlSelectInstructor = "SELECT * FROM instructors WHERE (id='" . $reginfoRow['instructor_id'] . "')";
+    // $resultInstructor = mysqli_query($connection, $sqlSelectInstructor);
+    // $instructorRow = mysqli_fetch_assoc($resultInstructor);
+    while ($courseHistoryRow = mysqli_fetch_assoc($resultCourseHistory)) {
+      echo "      <td>" . $courseHistoryRow['semester'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['course'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['title'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['days'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['time'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['act'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['instructor'] . "</td>";
+      echo "      <td>" . $courseHistoryRow['location'] . "</td>";
       echo "    </tr>\n";
     }
     ?>
