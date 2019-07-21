@@ -41,12 +41,8 @@
       }
 
       $sqlListCourses = "SELECT id, course FROM courses ORDER BY course ASC";
-      $sqlListInstructors = "SELECT id, instructor FROM instructors ORDER BY instructor ASC";
       $result = mysqli_query($connection, $sqlListCourses);
       $courseListDropDown = makeDropDown("course", $result);
-      mysqli_free_result($result);
-      $result = mysqli_query($connection, $sqlListInstructors);
-      $instructorListDropDown = makeDropDown("instructor", $result);
       mysqli_free_result($result);
       mysqli_close($connection);
       ?>
@@ -55,6 +51,12 @@
       <form action="searchcourse.php" method="get">
         <fieldset>
           <label for="course_id">Course<span class="required">*</span></label> <?PHP echo $courseListDropDown ?><br />
+          <label for="order_by">Order By<span class="required">*</span></label>
+          <select id='order_by' name='order_by'>
+            <option value="reginfo.semester">Semester</option>
+            <option value="reginfo.act">Enrolled Number</option>
+          </select>
+          <br/>
           <input type="submit">
         </fieldset>
       </form>

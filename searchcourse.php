@@ -6,6 +6,18 @@ $connection = mysqli_connect($host, $user, $password, $database);
 if (mysqli_connect_errno()) {
   die(mysqli_connect_error());    // not production error handling
 }
+
+$courseId = $_GET["course_id"];
+$orderBy = $_GET["order_by"];
+if ($orderBy == "reginfo.semester") {
+  $secondOrderBy = "reginfo.act";
+  $orderByLabel = "SEMESTER";
+  $secondOrderByLabel = "ENROLLED NUMBER";
+} else {
+  $secondOrderBy = "reginfo.semester";
+  $orderByLabel = "ENROLLED NUMBER";
+  $secondOrderByLabel = "SEMESTER";
+}
 ?>
 
 <link rel="stylesheet" href="basesearch.css" type="text/css">
@@ -15,7 +27,7 @@ if (mysqli_connect_errno()) {
     <h1>Course History</h1>
   </main>
   <p>
-    Follow bellow your selected course history sorted by semester and then by enrolled number in descending order:
+    Follow bellow your selected course history sorted first by <b> <?PHP echo $orderByLabel ?> </b> and then by <b> <?PHP echo $secondOrderByLabel ?> </b> in descending order:
   </p>
   <table>
     <tr>
@@ -30,9 +42,7 @@ if (mysqli_connect_errno()) {
     </tr>
     <?php
     echo "    <tr>\n";
-    $fieldName = "course_id";
-    $courseId = $_GET[$fieldName];
-    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course='" . $courseId . "' ORDER BY reginfo.semester DESC, reginfo.act DESC";
+    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course='" . $courseId . "' ORDER BY " . $orderBy . " DESC, " . $secondOrderBy . " DESC";
     $resultCourseHistory = mysqli_query($connection, $sqlSelectDataInnerJoin);
     // $courseHistoryRow = mysqli_fetch_assoc($resultCourseHistory);
     // $sqlSelectReginfo = "SELECT * FROM reginfo WHERE (course_id='" . $courseRow['id'] . "')";
