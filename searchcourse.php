@@ -42,8 +42,8 @@ if ($orderBy == "reginfo.semester") {
     </tr>
     <?php
     echo "    <tr>\n";
-    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course= ? ORDER BY  ? DESC, ? DESC";
-    $stmt=$connection->prepare("SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course= ? ORDER BY  ? DESC, ? DESC");
+    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course=? ORDER BY  ? DESC, ? DESC";
+    $stmt=$connection->prepare($sqlSelectDataInnerJoin);
     $stmt->bind_param("iss", $courseId, $orderBy, $secondOrderBy);
     $stmt->execute();
     $stmt->bind_result($id1, $course, $title, $id2, $semester, $course_id, $sec, $days, $time, $cap, $act, $instructor_id, $location, $id3, $instructor);
