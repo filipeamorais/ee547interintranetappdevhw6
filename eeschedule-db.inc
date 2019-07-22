@@ -1,6 +1,6 @@
 <?PHP
   $host = "localhost";
-  $database = "eeschedule";
+  $database = "eeschedule_db";
   $user = "root";
   $password = '';
 ?>
