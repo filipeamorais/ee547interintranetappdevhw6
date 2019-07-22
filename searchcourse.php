@@ -42,17 +42,20 @@ if ($orderBy == "reginfo.semester") {
     </tr>
     <?php
     echo "    <tr>\n";
-    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course='" . htmlspecialchars($courseId, ENT_QUOTES, 'UTF-8') . "' ORDER BY " . htmlspecialchars($orderBy, ENT_QUOTES, 'UTF-8') . " DESC, " . htmlspecialchars($secondOrderBy, ENT_QUOTES, 'UTF-8') . " DESC";
-    $resultCourseHistory = mysqli_query($connection, $sqlSelectDataInnerJoin);
-    while ($courseHistoryRow = mysqli_fetch_assoc($resultCourseHistory)) {
-      echo "      <td>" . $courseHistoryRow['semester'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['course'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['title'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['days'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['time'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['act'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['instructor'] . "</td>";
-      echo "      <td>" . $courseHistoryRow['location'] . "</td>";
+    $sqlSelectDataInnerJoin = "SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course= ? ORDER BY  ? DESC, ? DESC";
+    $stmt=$connection->prepare("SELECT * FROM courses INNER JOIN reginfo ON courses.id=course_id INNER JOIN instructors ON instructor_id=instructors.id WHERE course= ? ORDER BY  ? DESC, ? DESC");
+    $stmt->bind_param("iss", $courseId, $orderBy, $secondOrderBy);
+    $stmt->execute();
+    $stmt->bind_result($id1, $course, $title, $id2, $semester, $course_id, $sec, $days, $time, $cap, $act, $instructor_id, $location, $id3, $instructor);
+    while ($stmt->fetch()) {
+      echo "      <td>" . $semester . "</td>";
+      echo "      <td>" . $course . "</td>";
+      echo "      <td>" . $title . "</td>";
+      echo "      <td>" . $days . "</td>";
+      echo "      <td>" . $time . "</td>";
+      echo "      <td>" . $act. "</td>";
+      echo "      <td>" . $instructor . "</td>";
+      echo "      <td>" . $location . "</td>";
       echo "    </tr>\n";
     }
     ?>
